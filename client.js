@@ -15,11 +15,11 @@ var ReactRouter = require('react-router');
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var createElement = require('fluxible-addons-react/createElementWithContext');
 
+import { set as setClientContextCache } from './clientContextCache'
+
 import routeActions from './actions/routeActions'
 
 bootstrapDebug('rehydrating app');
-
-import handleRouteUpdate from './handleRouteUpdate'
 
 function RenderApp(context){
     bootstrapDebug('React Rendering');
@@ -54,6 +54,8 @@ app.rehydrate(dehydratedState, function (err, context) {
     }
     window.debug = debug;
     window.context = context;
+
+    setClientContextCache(context)
 
     RenderApp(context);
 });

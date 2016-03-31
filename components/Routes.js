@@ -5,13 +5,19 @@ import Home from './Home'
 import About from './About'
 import clone from 'clone'
 import addPropsRecursively from '../utils/addPropsRecursively'
+import { get as getClientContextCache } from '../clientContextCache'
+import routeActions from '../actions/routeActions'
 
 function onEnter(next) {
-  console.log('on enter', next)
+  const context = getClientContextCache()
+  if (!context) return
+  context.getActionContext().executeAction(routeActions.UPDATE_ROUTE, next)
 }
 
 function onLeave(next) {
-  console.log('on leave', next)
+  const context = getClientContextCache()
+  if (!context) return
+  context.getActionContext().executeAction(routeActions.UPDATE_ROUTE)
 }
 
 let routes = (
@@ -25,8 +31,6 @@ let routes = (
 );
 
 routes = addPropsRecursively(routes, {onEnter, onLeave})
-
-// console.log(routes)
 
 export default routes;
 
