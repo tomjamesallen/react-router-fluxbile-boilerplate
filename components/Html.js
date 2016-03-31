@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import ApplicationStore from '../stores/ApplicationStore';
+import RouteStore from '../stores/RouteStore';
 
 class HtmlComponent extends React.Component {
     render() {

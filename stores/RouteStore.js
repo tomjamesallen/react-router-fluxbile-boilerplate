@@ -1,45 +1,78 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-'use strict';
-var createStore = require('fluxible/addons').createStore;
+import BaseStore from 'fluxible/addons/BaseStore';
 
-function getInitialState() {
-    return {
-        location: {},
-        params: {}
-    }
+import shallowequal from 'shallowequal'
+import clone from 'clone'
+
+let prevRouteState
+
+function routeChanged(prev, next) {
+  if (!prev) return true
+  if (prev.location.pathname !== next.location.pathname) return true
+  if (!shallowequal(prev.location.query, next.location.query)) return true
+  return
 }
 
-var routeState = {}
+function onRouteEvent(next) {
+  if (!routeChanged(prevRouteState, next)) return
+  prevRouteState = clone(next)
+  return true
+}
 
-var RouteStore = createStore({
-    storeName: 'PageStore',
-    initialize: function () {
-        routeState = getInitialState()
-    },
-    handleRouteChange: function (location, params) {
-        routeState.route = {
-            location,
-            params
-        }
-        this.emitChange();
-    },
-    handlers: {
-        'UPDATE_ROUTE': 'handleRouteChange'
-    },
-    getState: function () {
-        return routeState
-    },
-    dehydrate: function () {
-        console.log('dehydrate', this.getState())
-        return this.getState();
-    },
-    rehydrate: function (state) {
-        console.log('rehydrate', state)
-        routeState = state;
+function getInitialState() {
+  return {
+    location: {},
+    params: {}
+  }
+}
+
+let state = {}
+let cachedRouteState = {}
+
+class RouteStore extends BaseStore {
+  constructor(dispatcher) {
+    super(dispatcher);
+    state = getInitialState()
+  }
+  updateRoute(payload) {
+    let location, params
+    
+    if (payload.location && payload.params) {
+      location = payload.location
+      params = payload.params
     }
-});
+    else if (cachedRouteState.location && cachedRouteState.params) {
+      location = cachedRouteState.location
+      params = cachedRouteState.params
+    }
+    else return
+    
+    if (onRouteEvent({
+      location, params
+    })) {
+      state.location = location
+      state.params = params
+      console.log('emit change', state)
+      this.emitChange()
+    }   
+  }
+  cacheRouteState(payload) {
+    cachedRouteState = payload
+  }
+  getState() {
+    return state;
+  }
+  dehydrate() {
+    return this.getState()
+  }
+  rehydrate(importState) {
+    state = importState
+  }
+}
 
-module.exports = RouteStore;
+RouteStore.storeName = 'RouteStore';
+RouteStore.handlers = {
+  CHANGE_ROUTE: 'updateRoute',
+  CACHE_ROUTE_STATE: 'cacheRouteState'
+};
+
+export default RouteStore;

@@ -8,6 +8,7 @@ import HtmlComponent from './components/Html';
 var express = require('express');
 var serialize = require('serialize-javascript');
 var navigateAction = require('./actions/navigate');
+var routeActions = require('./actions/routeActions');
 var renderToStaticMarkup = require('react-dom/server').renderToStaticMarkup;
 var renderToString = require('react-dom/server').renderToString;
 var debug = require('debug')('Example');
@@ -18,8 +19,6 @@ var router = require('react-router');
 var match = router.match;
 import { RouterContext } from 'react-router'
 const env = process.env.NODE_ENV;
-
-import handleRouteUpdate from './handleRouteUpdate'
 
 var server = express();
 server.use('/public', express['static'](__dirname + '/build'));
@@ -37,10 +36,9 @@ server.use(function (req, res, next) {
         } else if (renderProps) {
             const { location, params } = renderProps
 
-            handleRouteUpdate(location, params);
 
             var context = app.createContext();
-            context.executeAction(navigateAction, {path: req.url}, function () {
+            context.executeAction(routeActions.UPDATE_ROUTE, renderProps, function () {
                 debug('Exposing context state');
                 var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
                 var markupElement = React.createElement(

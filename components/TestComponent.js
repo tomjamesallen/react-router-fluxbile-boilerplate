@@ -8,7 +8,7 @@ import { connectToStores } from 'fluxible-addons-react';
 
 class TestComponent extends React.Component {
     render() {
-      // console.log(this)
+      console.log(this.props.location)
         return <p>Test component</p>;
     }
 }

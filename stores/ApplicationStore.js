@@ -1,38 +1,35 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-'use strict';
-var createStore = require('fluxible/addons').createStore;
+import BaseStore from 'fluxible/addons/BaseStore';
+import RouteStore from './RouteStore';
 
-var ApplicationStore = createStore({
-    storeName: 'ApplicationStore',
-    handlers: {
-        'CHANGE_ROUTE': 'handleNavigate'
-    },
-    initialize: function () {
-        this.currentRoute = null;
-    },
-    handleNavigate: function (route) {
-        console.log('handleNavigate', route)
-        if (this.currentRoute && route.path === this.currentRoute.path) {
-            return;
-        }
-
-        this.currentRoute = route;
-        this.emitChange();
-    },
-    getState: function () {
-        return {
-            route: this.currentRoute
-        };
-    },
-    dehydrate: function () {
-        return this.getState();
-    },
-    rehydrate: function (state) {
-        this.currentRoute = state.route;
+class ApplicationStore extends BaseStore {
+    constructor(dispatcher) {
+        super(dispatcher);
+        this.pageTitle = '';
     }
-});
+    handlePageTitle(currentRoute) {
+        this.dispatcher.waitFor(RouteStore, () => {
+            if (currentRoute && currentRoute.title) {
+                this.pageTitle = currentRoute.title;
+                this.emitChange();
+            }
+        });
+    }
+    getPageTitle() {
+        return this.pageTitle;
+    }
+    dehydrate() {
+        return {
+            pageTitle: this.pageTitle
+        };
+    }
+    rehydrate(state) {
+        this.pageTitle = state.pageTitle;
+    }
+}
 
-module.exports = ApplicationStore;
+ApplicationStore.storeName = 'ApplicationStore';
+// ApplicationStore.handlers = {
+//     'NAVIGATE_SUCCESS': 'handlePageTitle'
+// };
+
+export default ApplicationStore;

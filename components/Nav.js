@@ -15,6 +15,8 @@ class Nav extends React.Component {
             <ul className="pure-menu pure-menu-open pure-menu-horizontal">
                 <li><Link to='/'>Home</Link></li>
                 <li><Link to='/about?test=something'>About</Link></li>
+                <li><Link to='/round/1'>Round 1</Link></li>
+                <li><Link to='/round/1/index'>Round index</Link></li>
             </ul>
         );
     }

@@ -15,25 +15,31 @@ var ReactRouter = require('react-router');
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var createElement = require('fluxible-addons-react/createElementWithContext');
 
+import routeActions from './actions/routeActions'
+
 bootstrapDebug('rehydrating app');
 
 import handleRouteUpdate from './handleRouteUpdate'
 
 function RenderApp(context){
     bootstrapDebug('React Rendering');
+
+    const Router = React.createElement(ReactRouter.Router, {
+        routes: context.getComponent(),
+        history: require('./history'),
+        onUpdate: function() {
+            const { location, params } = this.state
+            context.executeAction(routeActions.CACHE_ROUTE_STATE, this.state)
+            context.executeAction(routeActions.UPDATE_ROUTE, {location, params})
+        }
+    })
+    
     var mountNode = document.getElementById('app');
     ReactDOM.render(
         React.createElement(
             FluxibleComponent,
             { context: context.getComponentContext() },
-            React.createElement(ReactRouter.Router, {
-                routes: context.getComponent(),
-                history: require('./history'),
-                onUpdate: function() {
-                    const { location, params } = this.state
-                    handleRouteUpdate(location, params)
-                }
-            })
+            Router
         ),
         mountNode,
         function () {
