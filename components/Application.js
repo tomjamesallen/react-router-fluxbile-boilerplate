@@ -12,16 +12,24 @@ import {RouteHandler, Router} from 'react-router';
 import routes from './Routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-class Application extends React.Component {
+var Application = React.createClass({
 
-    static contextTypes = {
+    contextTypes: {
         getStore: React.PropTypes.func,
-        executeAction: React.PropTypes.func
-    };
+        executeAction: React.PropTypes.func,
+    },
 
-    constructor(props, context) {
-        super(props, context);
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    // }
+
+    childContextTypes: {
+      location: React.PropTypes.object
+    },
+
+    getChildContext() {
+      return { location: this.props.location }
+    },
     render() {
         return (
             <div>
@@ -31,6 +39,6 @@ class Application extends React.Component {
             </div>
         );
     }
-}
+})
 
 export default Application;

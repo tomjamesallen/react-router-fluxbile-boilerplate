@@ -13,7 +13,7 @@ var PageStore = createStore({
     handleContentChange: function (payload) {
         // console.log('handleContentChange', payload)
         this.content = 'content for page with id '+payload.id;
-        this.emitChange();
+        // this.emitChange();
     },
     handlers: {
         'LOAD_PAGE': 'handleContentChange'

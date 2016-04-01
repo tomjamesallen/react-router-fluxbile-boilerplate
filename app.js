@@ -8,11 +8,11 @@ import RouteStore from './stores/RouteStore';
 import Routes from './components/Routes';
 
 const app = new Fluxible({
-    component: Routes,
-    stores: [
-        ApplicationStore,
-        RouteStore
-    ]
+  component: Routes,
+  stores: [
+    ApplicationStore,
+    RouteStore
+  ]
 });
 
 module.exports = app;

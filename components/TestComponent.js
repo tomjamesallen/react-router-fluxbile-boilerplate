@@ -1,19 +1,35 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
 import React from 'react';
 import RouteStore from '../stores/RouteStore'
-import { connectToStores } from 'fluxible-addons-react';
+import {connectToStores, provideContext} from 'fluxible-addons-react';
 
 class TestComponent extends React.Component {
-    render() {
-      console.log(this.props.location)
-        return <p>Test component</p>;
-    }
+  static contextTypes = {
+    // getStore: React.PropTypes.func,
+    // executeAction: React.PropTypes.func,
+    // history: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
+  }
+
+  // static childContextTypes: {
+  //   location: React.PropTypes.object
+  // }
+
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  render() {
+    let context = this.context
+    // console.log('TestComponent', this)
+    console.log(this.context.location.pathname)
+    return <p>Test component</p>;
+  }
 }
 
-TestComponent = connectToStores(TestComponent, [RouteStore], (context) => context.getStore(RouteStore).getState());
+// TestComponent = provideContext(TestComponent)
+
+// TestComponent = connectToStores(TestComponent, [RouteStore], (context) => context.getStore(RouteStore).getState());
 
 
 export default TestComponent;

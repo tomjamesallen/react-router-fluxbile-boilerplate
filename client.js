@@ -18,6 +18,7 @@ var createElement = require('fluxible-addons-react/createElementWithContext');
 import { set as setClientContextCache } from './clientContextCache'
 
 import routeActions from './actions/routeActions'
+import RouteStore from './stores/RouteStore'
 
 bootstrapDebug('rehydrating app');
 
@@ -30,7 +31,8 @@ function RenderApp(context){
         onUpdate: function() {
             const { location, params } = this.state
             context.executeAction(routeActions.CACHE_ROUTE_STATE, this.state)
-            context.executeAction(routeActions.UPDATE_ROUTE, {location, params})
+            // context.executeAction(routeActions.UPDATE_ROUTE, {location, params})
+            context.getStore(RouteStore)._setRoute({location, params})
         }
     })
     
@@ -49,13 +51,13 @@ function RenderApp(context){
 }
 
 app.rehydrate(dehydratedState, function (err, context) {
-    if (err) {
-        throw err;
-    }
-    window.debug = debug;
-    window.context = context;
+    if (err) throw err
+    window.debug = debug
+    window.context = context
+
+    console.log('rehydrate and cache context')
 
     setClientContextCache(context)
 
-    RenderApp(context);
+    RenderApp(context)
 });

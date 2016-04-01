@@ -5,6 +5,14 @@
 import React from 'react';
 
 class Home extends React.Component {
+  // childContextTypes: {
+  //   location: React.PropTypes.object
+  // }
+
+  // getChildContext() {
+  //   return { location: this.props.location }
+  // }
+
     render() {
         return <p>Welcome to the site!</p>;
     }

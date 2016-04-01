@@ -1,7 +1,7 @@
 export default {
   UPDATE_ROUTE(actionContext, payload, done) {
     const { location, params } = payload
-    actionContext.dispatch('CHANGE_ROUTE', {location, params})
+    actionContext.dispatch('UPDATE_ROUTE', {location, params})
     done()
   },
   CACHE_ROUTE_STATE(actionContext, routeState, done) {

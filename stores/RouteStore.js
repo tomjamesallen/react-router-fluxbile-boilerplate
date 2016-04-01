@@ -3,19 +3,11 @@ import BaseStore from 'fluxible/addons/BaseStore';
 import shallowequal from 'shallowequal'
 import clone from 'clone'
 
-let prevRouteState
-
 function routeChanged(prev, next) {
   if (!prev) return true
   if (prev.location.pathname !== next.location.pathname) return true
   if (!shallowequal(prev.location.query, next.location.query)) return true
   return
-}
-
-function onRouteEvent(next) {
-  if (!routeChanged(prevRouteState, next)) return
-  prevRouteState = clone(next)
-  return true
 }
 
 function getInitialState() {
@@ -25,54 +17,88 @@ function getInitialState() {
   }
 }
 
-let state = {}
 let cachedRouteState = {}
 
 class RouteStore extends BaseStore {
   constructor(dispatcher) {
     super(dispatcher);
-    state = getInitialState()
+    this.state = getInitialState()
+    this.dispatcher = dispatcher
+    
+    if (this.initialize) {
+      this.initialize()
+    }
   }
+  state = {}
+  prevRouteState = false
   updateRoute(payload) {
     let location, params
     
-    if (payload.location && payload.params) {
+    if (payload) {
       location = payload.location
       params = payload.params
     }
-    else if (cachedRouteState.location && cachedRouteState.params) {
+    else if (cachedRouteState.location) {
       location = cachedRouteState.location
       params = cachedRouteState.params
     }
     else return
-    
-    if (onRouteEvent({
+
+    let shouldUpdate = routeChanged(this.prevRouteState, {
       location, params
-    })) {
-      state.location = location
-      state.params = params
-      console.log('emit change', state)
-      this.emitChange()
+    })
+    
+    if (shouldUpdate) {
+      this.state.location = location
+      this.state.params = params
+      // console.log('emit change', this.state.location)
+      // this.emitChange()
+
+      // console.log('this.context', this.dispatcher.getContext())
+
+      
+
+      // if (this.context) {
+      //   console.log('shouldUpdate', this.context)
+      //   this.context.executeAction(routeActions.UPDATE_ROUTE, next)
+      // }
+
+      
+
+      this.prevRouteState = clone({
+        location, params
+      })
     }   
   }
   cacheRouteState(payload) {
     cachedRouteState = payload
   }
+  _setRoute(payload, callback = function() {}) {
+    this.updateRoute(payload)
+    callback()
+  }
   getState() {
-    return state;
+    return null
+    return this.state;
   }
   dehydrate() {
+    console.log('dehydrate routestore', this.getState())
     return this.getState()
   }
   rehydrate(importState) {
-    state = importState
+    this.state = importState
+    this.prevRouteState = importState
+    console.log('rehydrate', importState)
+  }
+  updateRouteAction() {
+    // this.emitChange()
   }
 }
 
 RouteStore.storeName = 'RouteStore';
 RouteStore.handlers = {
-  CHANGE_ROUTE: 'updateRoute',
-  CACHE_ROUTE_STATE: 'cacheRouteState'
+  UPDATE_ROUTE: 'updateRouteAction',
+  // CACHE_ROUTE_STATE: 'cacheRouteState'
 };
 
 export default RouteStore;

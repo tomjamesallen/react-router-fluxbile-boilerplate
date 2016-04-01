@@ -20,6 +20,8 @@ var match = router.match;
 import { RouterContext } from 'react-router'
 const env = process.env.NODE_ENV;
 
+import RouteStore from './stores/RouteStore'
+
 var server = express();
 server.use('/public', express['static'](__dirname + '/build'));
 
@@ -35,29 +37,29 @@ server.use(function (req, res, next) {
             res.redirect(302, redirectLocation.pathname + redirectLocation.search);
         } else if (renderProps) {
             const { location, params } = renderProps
-
-
             var context = app.createContext();
-            context.executeAction(routeActions.UPDATE_ROUTE, renderProps, function () {
-                debug('Exposing context state');
-                var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
-                var markupElement = React.createElement(
-                        FluxibleComponent,
-                        { context: context.getComponentContext() },
-                        React.createElement(RouterContext, renderProps)
-                    );
-                var html = renderToStaticMarkup(
-                    <HtmlComponent
-                        context={context.getComponentContext()}
-                        state={exposed}
-                        markup={renderToString(markupElement)}
-                        clientFile={env === 'production' ? 'main.min.js' : 'main.js'}
-                    />
-                );
+            console.log('has props')
+            
 
-                debug('Sending markup');
-                res.status(200).send(html);
-            });
+            // context.executeAction(routeActions.UPDATE_ROUTE, renderProps, function () {
+            debug('Exposing context state');
+            var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
+            var markupElement = React.createElement(
+                    FluxibleComponent,
+                    { context: context.getComponentContext() },
+                    React.createElement(RouterContext, renderProps)
+                );
+            var html = renderToStaticMarkup(
+                <HtmlComponent
+                    context={context.getComponentContext()}
+                    state={exposed}
+                    markup={renderToString(markupElement)}
+                    clientFile={env === 'production' ? 'main.min.js' : 'main.js'}
+                />
+            );
+
+            debug('Sending markup');
+            res.status(200).send(html);
         } else {
             next();
         }
