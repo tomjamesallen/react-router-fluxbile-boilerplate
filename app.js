@@ -4,15 +4,13 @@
  */
 import Fluxible from 'fluxible';
 import ApplicationStore from './stores/ApplicationStore';
-import RouteStore from './stores/RouteStore';
 import Routes from './components/Routes';
 
 const app = new Fluxible({
   component: Routes,
   stores: [
-    ApplicationStore,
-    RouteStore
+    ApplicationStore
   ]
-});
+})
 
-module.exports = app;
+export default app

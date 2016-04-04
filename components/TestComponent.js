@@ -1,35 +1,37 @@
-import React from 'react';
-import RouteStore from '../stores/RouteStore'
-import {connectToStores, provideContext} from 'fluxible-addons-react';
+import React, { PropTypes } from 'react'
+import { connectToStores } from 'fluxible-addons-react'
+import ApplicationStore from '../stores/ApplicationStore'
+import appActions from '../actions/appActions'
 
-class TestComponent extends React.Component {
-  static contextTypes = {
-    // getStore: React.PropTypes.func,
-    // executeAction: React.PropTypes.func,
-    // history: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired
-  }
+var TestComponent = React.createClass({
+  contextTypes: {
+    location: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired
+  },
 
-  // static childContextTypes: {
-  //   location: React.PropTypes.object
-  // }
-
-  constructor(props, context) {
-    super(props, context);
-  }
+  _onClick() {
+    const title = 'A new title'
+    this.context.executeAction(appActions.SET_TITLE, { title })
+  },
 
   render() {
     let context = this.context
-    // console.log('TestComponent', this)
-    console.log(this.context.location.pathname)
-    return <p>Test component</p>;
+    // console.log(this.props)
+    
+    return (
+      <div>
+        <h1>Route aware component.</h1>
+        <p>Route: {this.context.location.pathname}</p>
+        <button onClick={this._onClick}>Update title</button>: {this.props.title}
+      </div>
+    )
   }
-}
+})
 
-// TestComponent = provideContext(TestComponent)
+TestComponent = connectToStores(TestComponent, [ApplicationStore], (context) => {
+  const title = context.getStore(ApplicationStore).getPageTitle()
+  return { title }
+})
 
-// TestComponent = connectToStores(TestComponent, [RouteStore], (context) => context.getStore(RouteStore).getState());
-
-
-export default TestComponent;
+export default TestComponent

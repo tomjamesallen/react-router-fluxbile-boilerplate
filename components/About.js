@@ -8,21 +8,21 @@ import transitionManager from '../transitionManager'
 var _transitionHookId = null
 
 function transitionHook(call) {
-  setTimeout(call.resolve, 0)
+  setTimeout(call.resolve, 1000)
 }
 
 class About extends React.Component {
-    render() {
-        return <p>This is a description of the site.</p>;
-    }
+  render() {
+    return <p>This is a description of the site.</p>
+  }
 
-    componentDidMount() {
-      _transitionHookId = transitionManager.registerHook(transitionHook)
-    }
+  componentDidMount() {
+    _transitionHookId = transitionManager.registerHook(transitionHook)
+  }
 
-    componentWillUnmount() {
-      transitionManager.unregisterHook(_transitionHookId)
-    }
+  componentWillUnmount() {
+    transitionManager.unregisterHook(_transitionHookId)
+  }
 }
 
 export default About;

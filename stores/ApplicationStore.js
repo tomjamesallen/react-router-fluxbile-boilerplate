@@ -1,32 +1,32 @@
 import BaseStore from 'fluxible/addons/BaseStore';
-import RouteStore from './RouteStore';
 
 class ApplicationStore extends BaseStore {
   constructor(dispatcher) {
     super(dispatcher);
-    this.pageTitle = '';
+    // this.dispatcher = dispatcher
+    this.pageTitle = 'Initial title'
   }
-  handleRouteChange(currentRoute) {
-    this.dispatcher.waitFor(RouteStore, () => {
-      console.log('app store')
-    });
+  setTitle(title) {
+    this.pageTitle = title
+    this.emitChange()
   }
   getPageTitle() {
     return this.pageTitle;
   }
   dehydrate() {
+    console.log('dehydrate')
     return {
       pageTitle: this.pageTitle
-    };
+    }
   }
   rehydrate(state) {
-    this.pageTitle = state.pageTitle;
+    this.pageTitle = state.pageTitle
   }
 }
 
 ApplicationStore.storeName = 'ApplicationStore';
 ApplicationStore.handlers = {
-  'UPDATE_ROUTE': 'handleRouteChange'
+  'SET_TITLE': 'setTitle'
 }
 
 export default ApplicationStore;
