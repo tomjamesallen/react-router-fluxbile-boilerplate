@@ -6,7 +6,7 @@ var webpackConfig = {
         extensions: ['', '.js']
     },
     entry: [
-        './client.js'
+        './src/js/client.js'
     ],
     output: {
         path: path.resolve('./build/js'),

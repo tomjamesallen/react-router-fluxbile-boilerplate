@@ -17,7 +17,6 @@ var TestComponent = React.createClass({
 
   render() {
     let context = this.context
-    // console.log(this.props)
     
     return (
       <div>
