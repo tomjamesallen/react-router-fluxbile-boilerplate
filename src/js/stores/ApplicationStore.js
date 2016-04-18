@@ -14,7 +14,7 @@ class ApplicationStore extends BaseStore {
     return this.pageTitle;
   }
   dehydrate() {
-    console.log('dehydrate')
+    // console.log('dehydrate')
     return {
       pageTitle: this.pageTitle
     }
