@@ -2,23 +2,25 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import React from 'react';
-import Nav from './Nav';
+import React, { PropTypes } from 'react'
+import Nav from './Nav'
 import TestComponent from './TestComponent'
-import ApplicationStore from '../stores/ApplicationStore';
-import { connectToStores, provideContext } from 'fluxible-addons-react';
-import {RouteHandler, Router} from 'react-router';
-import routes from './Routes';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+// import ApplicationStore from '../stores/ApplicationStore'
+// import { connectToStores, provideContext } from 'fluxible-addons-react'
 
 var Application = React.createClass({
   contextTypes: {
     getStore: React.PropTypes.func,
-    executeAction: React.PropTypes.func,
+    executeAction: React.PropTypes.func
   },
 
   childContextTypes: {
-    location: React.PropTypes.object
+    location: PropTypes.object
+  },
+
+  propTypes: {
+    location: PropTypes.object,
+    children: PropTypes.element
   },
 
   getChildContext() {
@@ -35,4 +37,4 @@ var Application = React.createClass({
   }
 })
 
-export default Application;
+export default Application

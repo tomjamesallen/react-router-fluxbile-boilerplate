@@ -2,7 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import React from 'react';
+import React from 'react'
 
 class Home extends React.Component {
   // childContextTypes: {
@@ -13,9 +13,9 @@ class Home extends React.Component {
   //   return { location: this.props.location }
   // }
 
-    render() {
-        return <p>Welcome to the site!</p>;
-    }
+  render() {
+    return <p>Welcome to the site!</p>
+  }
 }
 
-export default Home;
+export default Home
