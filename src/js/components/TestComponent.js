@@ -21,6 +21,7 @@ var TestComponent = React.createClass({
 
   render() {
     let context = this.context
+    console.log(this)
 
     return (
       <div>

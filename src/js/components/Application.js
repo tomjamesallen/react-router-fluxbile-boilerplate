@@ -6,7 +6,7 @@ import React from 'react';
 import Nav from './Nav';
 import TestComponent from './TestComponent'
 import ApplicationStore from '../stores/ApplicationStore';
-import {connectToStores, provideContext} from 'fluxible-addons-react';
+import { connectToStores, provideContext } from 'fluxible-addons-react';
 import {RouteHandler, Router} from 'react-router';
 import routes from './Routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory';

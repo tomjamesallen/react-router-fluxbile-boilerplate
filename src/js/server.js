@@ -37,13 +37,9 @@ server.use(function(req, res, next) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     }
     else if (renderProps) {
-      // const { location, params } = renderProps
+      const { location, params } = renderProps
       var context = app.createContext()
-      context.executeAction(appActions.SET_TITLE, { title: 'set from server request' }, function() {
-        console.log('app.dehydrate(context)', app.dehydrate(context))
-
-
-        // context.executeAction(routeActions.UPDATE_ROUTE, renderProps, function () {
+      context.executeAction(appActions.SET_INTIAL_ROUTE_PROPS, { location, params }, function() {
         debug('Exposing context state')
         var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';'
         var markupElement = React.createElement(
