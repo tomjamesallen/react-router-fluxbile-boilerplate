@@ -4,6 +4,8 @@ var config = require('./webpack.config')
 var shell = require('shelljs')
 
 new WebpackDevServer(webpack(config), {
+  // quiet: true,
+  noInfo: true,
   publicPath: config.output.publicPath,
   hot: true,
   historyApiFallback: true,
