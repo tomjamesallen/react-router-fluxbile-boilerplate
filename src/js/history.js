@@ -1,4 +1,4 @@
-import { browserHistory, useQueries } from 'react-router'
+import { browserHistory } from 'react-router'
 
 // Create appropriate history.
 const history = browserHistory

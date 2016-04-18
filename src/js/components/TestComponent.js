@@ -10,6 +10,10 @@ var TestComponent = React.createClass({
     executeAction: PropTypes.func.isRequired
   },
 
+  propTypes: {
+    title: PropTypes.string
+  },
+
   _onClick() {
     const title = 'A new title'
     this.context.executeAction(appActions.SET_TITLE, { title })
@@ -17,11 +21,11 @@ var TestComponent = React.createClass({
 
   render() {
     let context = this.context
-    
+
     return (
       <div>
         <h1>Route aware component.</h1>
-        <p>Route: {this.context.location.pathname}</p>
+        <p>Route: {context.location.pathname}</p>
         <button onClick={this._onClick}>Update title</button>: {this.props.title}
       </div>
     )

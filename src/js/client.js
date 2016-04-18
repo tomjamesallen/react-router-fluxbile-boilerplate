@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom'
 import debug from 'debug'
 import app from './app'
 const dehydratedState = window.App // Sent from the server
-import ReactRouter from 'react-router'
+import { Router } from 'react-router'
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent'
 
 var bootstrapDebug = debug('Example')
@@ -19,7 +19,7 @@ bootstrapDebug('rehydrating app')
 function RenderApp(context) {
   bootstrapDebug('React Rendering')
 
-  const Router = React.createElement(ReactRouter.Router, {
+  const AppRouter = React.createElement(Router, {
     routes: context.getComponent(),
     history: require('./history')
   })
@@ -29,7 +29,7 @@ function RenderApp(context) {
     React.createElement(
       FluxibleComponent,
       { context: context.getComponentContext() },
-      Router
+      AppRouter
     ),
     mountNode,
     function() {

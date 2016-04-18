@@ -2,13 +2,14 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import React from 'react';
+import React from 'react'
 import transitionManager from '../transitionManager'
 
 var _transitionHookId = null
 
 function transitionHook(call) {
-  setTimeout(call.resolve, 1000)
+  call.resolve()
+  // setTimeout(call.resolve, 1000)
 }
 
 class About extends React.Component {
@@ -25,4 +26,4 @@ class About extends React.Component {
   }
 }
 
-export default About;
+export default About
