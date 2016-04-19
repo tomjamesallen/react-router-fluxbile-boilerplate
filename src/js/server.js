@@ -8,6 +8,7 @@ import HtmlComponent from './components/Html'
 import express from 'express'
 import serialize from 'serialize-javascript'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
+import path from 'path'
 
 import React from 'react'
 import app from './app'
@@ -22,7 +23,7 @@ let debug = Debug('Example')
 const env = process.env.NODE_ENV
 
 var server = express()
-server.use('/public', express['static'](__dirname + '/build'))
+server.use('/public', express['static'](path.resolve(__dirname, '../../build')))
 
 server.use(function(req, res, next) {
   debug('Executing navigate action')
