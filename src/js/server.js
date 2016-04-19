@@ -22,8 +22,16 @@ let debug = Debug('Example')
 
 const env = process.env.NODE_ENV
 
+import livereload from 'express-livereload'
+
 var server = express()
 server.use('/public', express['static'](path.resolve(__dirname, '../../build')))
+
+if (env === 'development') {
+  livereload(server, {
+    watchDir: path.resolve(__dirname, '../../build/css')
+  })
+}
 
 server.use(function(req, res, next) {
   debug('Executing navigate action')
