@@ -3,13 +3,13 @@ import assign from 'object-assign'
 export default function(history) {
   history.updateQuery = function(newQuery, location, userOptions = {}) {
     const options = assign({
-      mode: 'replace' // replace / merge
+      replace: true
     }, userOptions)
 
     const currentQuery = location.query
 
     let query
-    if (options.mode === 'replace') {
+    if (options.replace) {
       query = newQuery
     }
     else {
