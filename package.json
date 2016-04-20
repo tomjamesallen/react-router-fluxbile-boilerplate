@@ -1,11 +1,12 @@
 {
-  "name": "fluxible-boiler-plate",
+  "name": "react-router-fluxible-boilerplate",
   "version": "0.0.0",
   "private": true,
   "main": "start.js",
   "scripts": {
     "build": "NODE_ENV=production gulp scss:compile & webpack & webpack --config webpack.config.production.js",
-    "dev": "NODE_ENV=development gulp scss:watch & node webpack-dev-server.js",
+    "predev": "gulp eslint",
+    "dev": "NODE_ENV=development gulp scss:watch & gulp eslint:watch & node webpack-dev-server.js",
     "lint": "eslint ./*.js ./src/js/** || true",
     "start": "NODE_ENV=production node start.js"
   },
@@ -25,6 +26,9 @@
     "fluxible-addons-react": "^0.2.0",
     "fluxible-plugin-fetchr": "^0.3.0",
     "fluxible-router": "^0.4.0",
+    "keymirror": "^0.1.1",
+    "object-assign": "^4.0.1",
+    "query-string-parser": "^0.1.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-router": "^2.0.1",
@@ -48,6 +52,7 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^2.0.0",
     "gulp-pixrem": "^1.0.0",
     "gulp-react-tools": "^0.2.0",
     "gulp-sass": "^2.2.0",

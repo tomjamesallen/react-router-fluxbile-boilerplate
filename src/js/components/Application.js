@@ -4,7 +4,7 @@
  */
 import React, { PropTypes } from 'react'
 import Nav from './Nav'
-import TestComponent from './TestComponent'
+// import TestComponent from './TestComponent'
 // import ApplicationStore from '../stores/ApplicationStore'
 // import { connectToStores, provideContext } from 'fluxible-addons-react'
 
@@ -15,23 +15,27 @@ var Application = React.createClass({
   },
 
   childContextTypes: {
-    location: PropTypes.object
+    location: PropTypes.object,
+    params: PropTypes.object
   },
 
   propTypes: {
     location: PropTypes.object,
+    params: PropTypes.object,
     children: PropTypes.element
   },
 
   getChildContext() {
-    return { location: this.props.location }
+    return {
+      location: this.props.location,
+      params: this.props.params
+    }
   },
   render() {
     return (
       <div>
         <Nav />
         {this.props.children}
-        <TestComponent />
       </div>
     )
   }

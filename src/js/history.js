@@ -16,4 +16,7 @@ history.listenBefore(function(transition, callback) {
   })
 })
 
+// Add method to update just the query string.
+require('./helpers/UpdateQueryString')(history)
+
 export default history
