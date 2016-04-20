@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+// import React, { PropTypes } from 'react'
 // import { connectToStores, provideContext } from 'fluxible-addons-react'
 
 var {{COMPONENT}} = React.createClass({
@@ -9,7 +10,7 @@ var {{COMPONENT}} = React.createClass({
 
   render() {
     return (
-      <div>
+      <div className='{{COMPONENT_DASHED}}'>
         <h2>{{COMPONENT}}</h2>
       </div>
     )
