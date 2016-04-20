@@ -23,12 +23,12 @@ require('gulp-react-tools')(gulp, {
   commandPrefix: '',
   componentTemplate: './templates/Component.react.js',
   componentStyleTemplate: './templates/component.css',
-  componentDir:               './src/js/components/',
-  componentStylesDir:         './src/scss/',
+  componentDir: './src/js/components/',
+  componentStylesDir: './src/scss/',
 
-  componentName:              '{{COMPONENT}}.react.js',
-  componentStylesName:        '_components.{{COMPONENT_DASHED}}.scss',
+  componentName: '{{COMPONENT}}.react.js',
+  componentStylesName: '_components.{{COMPONENT_DASHED}}.scss',
 
-  appendStyleImportTemplate:  "// @import 'components.{{COMPONENT_DASHED}}\n",
-  appendStyleImportTo:        './src/scss/main.scss'
-})
+  appendStyleImportTemplate: "// @import 'components.{{COMPONENT_DASHED}}\n",
+  appendStyleImportTo: './src/scss/main.scss'
+});
