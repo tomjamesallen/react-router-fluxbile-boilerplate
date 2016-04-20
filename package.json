@@ -47,6 +47,7 @@
     "estraverse-fb": "^1.3.1",
     "express-livereload": "0.0.24",
     "gulp": "^3.9.1",
+    "gulp-react-tools": "^0.2.0",
     "json-loader": "^0.5.1",
     "nodemon": "^1.2.1",
     "react-hot-loader": "^1.2.8",
