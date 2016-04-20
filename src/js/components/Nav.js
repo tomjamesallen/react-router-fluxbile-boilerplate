@@ -13,7 +13,7 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <ul className='pure-menu pure-menu-open pure-menu-horizontal'>
+      <ul className=''>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/about?test=something'>About</Link></li>
         <li><Link to='/round/1'>Round 1</Link></li>
