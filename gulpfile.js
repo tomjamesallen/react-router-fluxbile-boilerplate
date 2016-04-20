@@ -19,6 +19,8 @@ gulp.task('eslint:watch', function() {
     });
 });
 
+require('./scss.gulpfile')(gulp);
+
 require('gulp-react-tools')(gulp, {
   commandPrefix: '',
   componentTemplate: './templates/Component.react.js',
