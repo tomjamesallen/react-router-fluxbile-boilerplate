@@ -14,19 +14,40 @@ var TestComponent = React.createClass({
     title: PropTypes.string
   },
 
+  getInitialState() {
+    return {
+      AsyncDemoComponent: null
+    }
+  },
+
   _onClick() {
     const title = 'A new title'
     this.context.executeAction(appActions.SET_TITLE, { title })
   },
 
+  componentDidMount() {
+    require(['./AsyncDemoComponent.react'], (AsyncDemoComponent) => {
+      this.setState({
+        AsyncDemoComponent
+      })
+    })
+  },
+
   render() {
     let context = this.context
+    let asyncDemoComponent
+
+    if (this.state.AsyncDemoComponent) {
+      let AsyncDemoComponent = this.state.AsyncDemoComponent
+      asyncDemoComponent = <AsyncDemoComponent />
+    }
 
     return (
       <div>
         <h1>Route aware component.</h1>
         <p>Route: {context.location.pathname}</p>
         <button onClick={this._onClick}>Update title</button>: {this.props.title}
+        {asyncDemoComponent}
       </div>
     )
   }
